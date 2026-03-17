@@ -139,7 +139,7 @@ function Game({ user }) {
     if (!file) return;
 
     try {
-      const fileRef = ref(storage, "uploads/" + file.name);
+      const fileRef = ref(storage, `uploads/${user.uid}/${file.name}`);
       await uploadBytes(fileRef, file);
 
       alert("File uploaded!");
@@ -153,7 +153,7 @@ function Game({ user }) {
   // Added load files from Firebase Storage
   const loadFiles = async () => {
     try {
-      const listRef = ref(storage, "uploads/");
+      const listRef = ref(storage, `uploads/${user.uid}`);
       const res = await listAll(listRef);
 
       const urls = await Promise.all(
