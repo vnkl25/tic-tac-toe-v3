@@ -151,25 +151,24 @@ function Game({ user }) {
   };
 
   // Added load files from Firebase Storage
-  const loadFiles = async () => {
-    try {
-      const listRef = ref(storage, `uploads/${user.uid}`);
-      const res = await listAll(listRef);
-
-      const urls = await Promise.all(
-        res.items.map((item) => getDownloadURL(item))
-      );
-
-      setFiles(urls);
-    } catch (err) {
-      console.error("Error loading files:", err);
-    }
-  };
-
-  // Added load files when component loads
   useEffect(() => {
+    const loadFiles = async () => {
+      try {
+        const listRef = ref(storage, `uploads/${user.uid}`);
+        const res = await listAll(listRef);
+
+        const urls = await Promise.all(
+          res.items.map((item) => getDownloadURL(item))
+        );
+
+        setFiles(urls);
+      } catch (err) {
+        console.error("Error loading files:", err);
+      }
+    };
+
     loadFiles();
-  }, []);
+  }, [user.uid]);
 
   return (
     <div className="game">
